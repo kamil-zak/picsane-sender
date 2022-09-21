@@ -1,0 +1,26 @@
+name: main
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_SERVER }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            sudo pm2 stop dell-sender
+            cd /var/www/dell-sender
+            sudo git fetch origin main
+            sudo git reset --hard origin/main
+            sudo npm ci
+            sudo npm run build
+            sudo pm2 start dell-sender
