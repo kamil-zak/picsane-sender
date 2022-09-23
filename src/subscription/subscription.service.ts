@@ -24,8 +24,20 @@ export class SubscriptionService {
 
   isWorking = false;
 
-  async subscribe({ item, email }: { item: string; email: string }) {
-    const subscription = this.subscriptionRepository.create({ item, email });
+  async subscribe({
+    item,
+    email,
+    agree,
+  }: {
+    item: string;
+    email: string;
+    agree: boolean;
+  }) {
+    const subscription = this.subscriptionRepository.create({
+      item,
+      email,
+      agree,
+    });
     await this.subscriptionRepository.save(subscription);
   }
 
@@ -34,6 +46,13 @@ export class SubscriptionService {
       where: { isSended: false },
     });
     return subscriptions;
+  }
+
+  async getAgree() {
+    const subscriptions = await this.subscriptionRepository.find({
+      where: { agree: true },
+    });
+    return subscriptions.map((sub) => sub.email);
   }
 
   @Cron(CronExpression.EVERY_10_SECONDS)

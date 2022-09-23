@@ -6,7 +6,17 @@ export class SubscriptionController {
   constructor(private subscriptionService: SubscriptionService) {}
 
   @Get()
-  subscribe(@Query('item') item: string, @Query('email') email: string) {
-    return this.subscriptionService.subscribe({ item, email });
+  subscribe(
+    @Query('item') item: string,
+    @Query('email') email: string,
+    @Query('agree') agr: string,
+  ) {
+    const agree = agr === '1';
+    return this.subscriptionService.subscribe({ item, email, agree });
+  }
+
+  @Get('agree')
+  getAgree() {
+    return this.subscriptionService.getAgree();
   }
 }

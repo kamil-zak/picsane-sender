@@ -11,6 +11,9 @@ export class Subscription {
   @Column()
   email: string;
 
+  @Column()
+  agree: boolean;
+
   @Column({ default: false })
   isSended: boolean;
 
