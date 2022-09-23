@@ -57,11 +57,11 @@ export class SubscriptionService {
         } catch (e) {
           waitingItem.errorMessage = e.message;
         } finally {
+          this.isWorking = false;
           waitingItem.isSended = true;
           await this.subscriptionRepository.save(waitingItem);
         }
       }
     }
-    this.isWorking = false;
   }
 }
