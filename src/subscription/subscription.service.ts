@@ -40,6 +40,13 @@ export class SubscriptionService {
   private async handleCron() {
     if (this.isWorking) return;
     this.isWorking = true;
+    try {
+      await this.check();
+    } catch (e) {}
+    this.isWorking = false;
+  }
+
+  private async check() {
     const galleryName = this.configService.get('GALLERY_NAME');
     const { data } = await axios.get(
       `https://picsane.pl/${galleryName}?file_list_all`,
@@ -57,7 +64,6 @@ export class SubscriptionService {
         } catch (e) {
           waitingItem.errorMessage = e.message;
         } finally {
-          this.isWorking = false;
           waitingItem.isSended = true;
           await this.subscriptionRepository.save(waitingItem);
         }
