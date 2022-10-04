@@ -17,11 +17,11 @@ export class MailService {
   HTML = readFileSync(join(__dirname, 'template.html')).toString();
 
   async sendMail({ href, thumbnail, email }: ISendMailArgs) {
-    await sgMail.send({
+    const resp = await sgMail.send({
       to: email,
       from: this.configService.get('EMAIL_FROM'),
-      subject: 'Your video from Dell Technologies',
-      text: `See your creation here: ${href}`,
+      subject: 'Your video from Dell Security Challenge',
+      text: `See your video here: ${href}`,
       html: this.getHTML({ href, thumbnail }),
       mailSettings: {
         sandboxMode: {
