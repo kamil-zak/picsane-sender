@@ -20,7 +20,7 @@ export class MailService {
     await sgMail.send({
       to: email,
       from: this.configService.get('EMAIL_FROM'),
-      subject: 'Dell - Twoje nagranie!',
+      subject: 'Your video from Dell Technologies',
       text: `See your creation here: ${href}`,
       html: this.getHTML({ href, thumbnail }),
       mailSettings: {
