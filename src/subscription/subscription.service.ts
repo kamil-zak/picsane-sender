@@ -55,6 +55,11 @@ export class SubscriptionService {
     return subscriptions.map((sub) => sub.email);
   }
 
+  async getAll() {
+    const subscriptions = await this.subscriptionRepository.find();
+    return subscriptions;
+  }
+
   @Cron(CronExpression.EVERY_10_SECONDS)
   private async handleCron() {
     if (this.isWorking) return;

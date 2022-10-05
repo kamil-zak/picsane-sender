@@ -19,4 +19,9 @@ export class SubscriptionController {
   getAgree() {
     return this.subscriptionService.getAgree();
   }
+
+  @Get('all')
+  getAll() {
+    return this.subscriptionService.getAll();
+  }
 }
